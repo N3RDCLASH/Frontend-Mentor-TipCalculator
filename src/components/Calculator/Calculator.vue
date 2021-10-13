@@ -18,39 +18,45 @@
       <span class="label">Select Tip %</span>
       <div class="tip-buttons-container">
         <TipButton
-          :setActive="setactiveTipPercentage"
+          :setActivePercentage="setActiveTipPercentage"
           :amount="5"
           :activeTipPercentage="activeTipPercentage"
         />
         <TipButton
-          :setActive="setactiveTipPercentage"
+          :setActivePercentage="setActiveTipPercentage"
           :amount="10"
           :activeTipPercentage="activeTipPercentage"
         />
         <TipButton
-          :setActive="setactiveTipPercentage"
+          :setActivePercentage="setActiveTipPercentage"
           :amount="15"
           :activeTipPercentage="activeTipPercentage"
         />
         <TipButton
-          :setActive="setactiveTipPercentage"
+          :setActivePercentage="setActiveTipPercentage"
           :amount="25"
           :activeTipPercentage="activeTipPercentage"
         />
         <TipButton
-          :setActive="setactiveTipPercentage"
+          :setActivePercentage="setActiveTipPercentage"
           :amount="50"
           :activeTipPercentage="activeTipPercentage"
         />
+        <!-- When the amount prop is ommitted from component the button turns into a custom input -->
         <TipButton
-          :setActive="setactiveTipPercentage"
+          :setActivePercentage="setActiveTipPercentage"
           :activeTipPercentage="activeTipPercentage"
         />
       </div>
       <div class="calculator-input-container">
-        <span class="label">Number of People</span>
+        <div class="flex justify-between">
+          <span class="label">Number of People</span>
+          <span v-if="this.numberOfPeople === 0" class="label error"
+            >Can't be zero
+          </span>
+        </div>
         <input
-          class="calculator-input"
+          :class="['calculator-input', { error: this.numberOfPeople === 0 }]"
           placeholder="0"
           id="people"
           type="number"
@@ -95,7 +101,7 @@ export default {
     };
   },
   methods: {
-    setactiveTipPercentage(tip) {
+    setActiveTipPercentage(tip) {
       console.log(tip);
       return (this.activeTipPercentage = tip);
     },
@@ -111,14 +117,17 @@ export default {
     tipAmountPerPerson() {
       const calculation =
         (this.bill * this.activeTipPercentage) / 100 / this.numberOfPeople;
-      return isNaN(calculation) ? 0 : calculation.toFixed(2);
+      return isNaN(calculation) || calculation === Infinity
+        ? Number(0).toFixed(2)
+        : calculation.toFixed(2);
     },
     totalAmountPerPerson() {
       const calculation =
         this.bill / this.numberOfPeople + Number(this.tipAmountPerPerson);
 
-      console.log(calculation);
-      return isNaN(calculation) ? 0 : calculation.toFixed(2);
+      return isNaN(calculation) || calculation === Infinity
+        ? Number(0).toFixed(2)
+        : calculation.toFixed(2);
     },
   },
 };
@@ -177,7 +186,7 @@ export default {
 
 /* Input Styles */
 .calculator-input-container {
-  @apply w-full p-5 flex-col flex;
+  @apply w-full py-5 flex-col flex;
 }
 .calculator-input {
   @apply h-7  rounded p-5 text-right primary-font very-dark-cyan-text font-semibold;
@@ -187,9 +196,24 @@ export default {
 .calculator-input:focus-visible {
   @apply outline-none;
 }
+
+.calculator-input.error,
+.calculator-input.error:focus-visible,
+.calculator-input.error:hover:enabled {
+  outline: 2px solid hsl(13deg 33% 60%);
+}
+.calculator-input:focus-visible,
+.calculator-input:hover:enabled {
+  /* outline-color: hsl(173deg 31% 50%); */
+  outline: 2px solid hsl(173deg 31% 50%);
+}
+
 .label {
   @apply text-left text-sm my-2 primary-font font-bold dark-grayish-cyan-1-text;
   font-family: var(--font);
+}
+.label.error {
+  color: hsl(13deg 33% 60%);
 }
 
 #bill {
@@ -253,7 +277,7 @@ input[type="number"] {
 
 @media only screen and (max-width: 982px) {
   .calculator-container {
-    @apply flex-col;
+    @apply flex-col mx-0 w-full;
   }
   .calculator-input-container {
     @apply px-0;

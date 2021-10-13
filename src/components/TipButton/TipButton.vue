@@ -6,19 +6,44 @@
   >
     {{ amount }}%
   </button>
-  <input v-else type="number"  placeholder="Custom" class="calculator-input" />
+  <input
+    v-else
+    type="number"
+    v-model="customAmount"
+    :oninput="setActiveStatus"
+    placeholder="Custom"
+    min="0"
+    :class="['calculator-input', { active: activeTipPercentage === amount }]"
+  />
 </template>
 
 <script>
 export default {
   props: {
     amount: Number,
-    setActive: Function,
+    setActivePercentage: Function,
     activeTipPercentage: Number,
+  },
+  data() {
+    return {
+      customAmount: 0,
+    };
   },
   methods: {
     setActiveStatus() {
-      return this.setActive(this.amount);
+      if (this.customAmount !== 0) {
+        return this.setActivePercentage(this.customAmount);
+      }
+      this.resetInputAmount();
+      return this.setActivePercentage(this.amount);
+    },
+    resetInputAmount() {
+      this.customAmount = 0;
+    },
+  },
+  watch: {
+    activeTipPercentage(val) {
+      if (this.activeTipPercentage !== this.customAmount) this.customAmount = 0;
     },
   },
 };

@@ -11,7 +11,7 @@
   --light-grayish-cyan-2: hsl(189, 41%, 97%);
   --white: hsl(0, 0%, 100%);
   --form-font-size: 1.4vw;
-}hsl(183deg 79% 24%)
+}
 
 .very-dark-cyan {
   color: var(--very-dark-cyan);
