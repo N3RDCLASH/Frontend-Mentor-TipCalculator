@@ -61,6 +61,7 @@
           id="people"
           type="number"
           v-model="numberOfPeople"
+          min="0"
         />
       </div>
     </div>
@@ -139,7 +140,7 @@ export default {
   letter-spacing: 8px;
 }
 .calculator-container {
-  @apply flex bg-white w-8/12 h-auto mx-auto rounded-lg p-8;
+  @apply flex bg-white w-7/12 h-auto mx-auto rounded-xl p-8;
   margin-top: 10vh;
 }
 
@@ -149,7 +150,7 @@ export default {
   margin-right: 1rem;
 }
 .calculator-column-right {
-  @apply flex flex-col w-full px-4 rounded-md bg-very-dark-cyan;
+  @apply flex flex-col w-full px-4 rounded-xl bg-very-dark-cyan;
 }
 
 /* Tip Amount */
@@ -174,7 +175,7 @@ export default {
 }
 
 .reset-button {
-  @apply w-full mt-28 p-2 very-dark-cyan-text bg-strong-cyan primary-font mx-auto font-bold rounded;
+  @apply w-10/12 mt-28 py-2  very-dark-cyan-text bg-strong-cyan primary-font mx-auto font-bold rounded cursor-pointer;
 }
 
 .reset-button:disabled {
@@ -189,7 +190,7 @@ export default {
   @apply w-full py-5 flex-col flex;
 }
 .calculator-input {
-  @apply h-7  rounded p-5 text-right primary-font very-dark-cyan-text font-semibold;
+  @apply h-7  rounded p-5 text-right primary-font very-dark-cyan-text font-semibold cursor-pointer;
   background-color: var(--light-grayish-cyan-2);
   font-size: var(--form-font-size);
 }
